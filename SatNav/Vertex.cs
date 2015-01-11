@@ -7,11 +7,8 @@ namespace SatNav
     {        
         private readonly Dictionary<Vertex, int> _neighbours;
 
-        public string Name { get; private set; }
-
-        public Vertex(string vertexName)
-        {
-            Name = vertexName;
+        public Vertex()
+        {            
             _neighbours = new Dictionary<Vertex, int>();
         }
 
@@ -39,24 +36,5 @@ namespace SatNav
         {
             return _neighbours.ContainsKey(otherVertex);
         }
-
-        protected bool Equals(Vertex other)
-        {
-            return string.Equals(Name, other.Name);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != GetType()) return false;
-            return Equals((Vertex) obj);
-        }
-
-        public override int GetHashCode()
-        {
-            return (Name != null ? Name.GetHashCode() : 0);
-        }
-
     }
 }

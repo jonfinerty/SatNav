@@ -107,7 +107,7 @@ namespace SatNav
 
         private void CreateTempStartVertex()
         {
-            var newStartVertex = new Vertex(string.Format("New source Vertex generated from Vertex: {0}", _startVertex.Name));
+            var newStartVertex = new Vertex();
 
             foreach (var neighbour in _startVertex.GetNeighbours())
             {

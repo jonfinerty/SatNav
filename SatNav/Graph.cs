@@ -1,22 +1,21 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SatNav
 {
     public class Graph
     {
-        private readonly ISet<Vertex> _vertices;
+        private readonly IDictionary<string, Vertex> _vertices;
 
         public Graph()
         {
-            _vertices = new HashSet<Vertex>();
+            _vertices = new Dictionary<string, Vertex>();
         }
 
-        public ISet<Vertex> Vertices
+        public ICollection<Vertex> Vertices
         {
             get
             {
-                return _vertices;
+                return _vertices.Values;
             }            
         }
 
@@ -32,27 +31,24 @@ namespace SatNav
 
         public Vertex GetVertex(string vertexName)
         {
-            var vertex = _vertices.FirstOrDefault(v => v.Name == vertexName);
-
-            if (vertex == null)
+            if (_vertices.ContainsKey(vertexName))
             {
-                throw new NoSuchVertexException();
+                return _vertices[vertexName];
             }
 
-            return vertex;
+            throw new NoSuchVertexException();
         }
 
         private Vertex GetOrCreateVertex(string vertexName)
         {
-            var vertex = _vertices.FirstOrDefault(v => v.Name == vertexName);
-
-            if (vertex == null)
+            if (_vertices.ContainsKey(vertexName))
             {
-                vertex = new Vertex(vertexName);
-                _vertices.Add(vertex);
+                return _vertices[vertexName];
             }
 
-            return vertex;
+            var newVertex = new Vertex();
+            _vertices.Add(vertexName, newVertex);
+            return newVertex;
         }
     }
 }

@@ -37,7 +37,7 @@ namespace SatNav
 
         private static Vertex CreateTempSourceVertex(Vertex startVertex)
         {
-            var newStartVertex = new Vertex(string.Format("NewSourceVertex generated from vertex: {0}", startVertex.Name));
+            var newStartVertex = new Vertex();
 
             foreach (var neighbour in startVertex.GetNeighbours())
             {
