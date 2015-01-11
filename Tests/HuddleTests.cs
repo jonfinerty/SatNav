@@ -83,7 +83,7 @@ namespace Tests
             Assert.AreEqual(2, search.CountNumberOfValidRoutes());
         }
 
-        [Ignore] // This test is wrong, the is only one route from A->C with 4 vertices in it: A-E-B-C
+        [Ignore] // This test is wrong, there is only one route from A->C with 4 vertices in it: A-E-B-C
         [TestMethod]
         public void Test7()
         {

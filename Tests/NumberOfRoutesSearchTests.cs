@@ -24,6 +24,21 @@ namespace Tests
         }
 
         [TestMethod]
+        public void MaximumVertexSearchWithSameStartAndFinish()
+        {
+            var graph = new Graph()
+                .AddEdge("Start", "Start", 1);
+
+            var search = new NumberOfRoutesSearchBuilder(graph)
+                .StartingFrom("Start")
+                .EndingAt("Start")
+                .WithMaximumVerticesInRoute(2)
+                .Build();
+
+            Assert.AreEqual(2, search.CountNumberOfValidRoutes());
+        }
+
+        [TestMethod]
         public void ExactVertexSearch()
         {
             var graph = new Graph()
@@ -35,6 +50,21 @@ namespace Tests
                 .StartingFrom("Start")
                 .EndingAt("End")
                 .WithExactVertexCountInRoute(3)
+                .Build();
+
+            Assert.AreEqual(1, search.CountNumberOfValidRoutes());
+        }
+
+        [TestMethod]
+        public void ExactVertexSearchWithSameStartAndFinish()
+        {
+            var graph = new Graph()
+                .AddEdge("Start", "Start", 1);
+
+            var search = new NumberOfRoutesSearchBuilder(graph)
+                .StartingFrom("Start")
+                .EndingAt("Start")
+                .WithExactVertexCountInRoute(1)
                 .Build();
 
             Assert.AreEqual(1, search.CountNumberOfValidRoutes());

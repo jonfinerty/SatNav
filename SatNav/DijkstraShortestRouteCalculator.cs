@@ -7,7 +7,6 @@ namespace SatNav
     public class DijkstraShortestRouteCalculator
     {
         private readonly Graph _graph;
-        private ICollection<Vertex> _verticesWithNoPathFoundToThemAtAll;
         private IDictionary<Vertex, int> _verticesWithTentativeShortestPaths;
         private IDictionary<Vertex, int> _verticesWithShortestPathFound;
         private Vertex _startVertex;
@@ -28,7 +27,6 @@ namespace SatNav
                 _startVertex = CreateTempSourceVertex(_startVertex);
             }
 
-            _verticesWithNoPathFoundToThemAtAll = _graph.Vertices.Where(v => v.Equals(_startVertex) == false).ToList();
             _verticesWithTentativeShortestPaths = new Dictionary<Vertex, int>{ {_startVertex, 0} };
             _verticesWithShortestPathFound = new Dictionary<Vertex, int>();
 
@@ -85,7 +83,6 @@ namespace SatNav
 
         private void SetTentativeShortestPathFound(Vertex neighbour, int pathDistanceToNeighbour)
         {
-            _verticesWithNoPathFoundToThemAtAll.Remove(neighbour);
             _verticesWithTentativeShortestPaths.Add(neighbour, pathDistanceToNeighbour);
         }
 
@@ -101,7 +98,7 @@ namespace SatNav
 
         private bool NoPathFoundToVertexYet(Vertex vertex)
         {
-            return _verticesWithNoPathFoundToThemAtAll.Contains(vertex);
+            return _verticesWithTentativeShortestPaths.ContainsKey(vertex) == false;
         }
 
         private void LockdownVertexShortestDistance(Vertex vertex)

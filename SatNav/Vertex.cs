@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace SatNav
 {
-    public class Vertex
+    internal class Vertex
     {        
-        private readonly Dictionary<Vertex, int> _neighbours;
+        private readonly IDictionary<Vertex, int> _neighbours;
 
         public Vertex()
         {            
@@ -16,7 +16,7 @@ namespace SatNav
         {
             if (_neighbours.ContainsKey(vertexB))
             {
-                throw new ArgumentException("Vertex: {0} is already connected to Vectex: {1} with a distance of {2}, cannot add a second connection");
+                throw new ArgumentException(string.Format("Vertices are already connected with a distance of {0}, cannot add a second connection", distance));
             }
 
             _neighbours[vertexB] = distance;

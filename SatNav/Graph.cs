@@ -11,14 +11,6 @@ namespace SatNav
             _vertices = new Dictionary<string, Vertex>();
         }
 
-        public ICollection<Vertex> Vertices
-        {
-            get
-            {
-                return _vertices.Values;
-            }            
-        }
-
         public Graph AddEdge(string startVertexName, string endVertexName, int distance)
         {
             var startVertex = GetOrCreateVertex(startVertexName);
@@ -29,7 +21,7 @@ namespace SatNav
             return this;
         }
 
-        public Vertex GetVertex(string vertexName)
+        internal Vertex GetVertex(string vertexName)
         {
             if (_vertices.ContainsKey(vertexName))
             {
