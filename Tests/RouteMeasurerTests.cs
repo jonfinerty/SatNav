@@ -14,7 +14,7 @@ namespace Tests
 
             try
             {
-                RouteMeasurer.MeasureRoute(new []{vertex1, vertex2});
+                new []{vertex1, vertex2}.MeasureRoute();
             }
             catch (NoSuchRouteException)
             {
@@ -27,7 +27,7 @@ namespace Tests
         [TestMethod]
         public void MeasureEmptyRoute()
         {
-            Assert.AreEqual(0, RouteMeasurer.MeasureRoute(new Vertex[]{}));
+            Assert.AreEqual(0, new Vertex[]{}.MeasureRoute());
         }
 
         [TestMethod]
@@ -35,7 +35,7 @@ namespace Tests
         {
             var vertex1 = new Vertex();
 
-            Assert.AreEqual(0, RouteMeasurer.MeasureRoute(new []{vertex1}));
+            Assert.AreEqual(0, new []{vertex1}.MeasureRoute());
         }
 
         [TestMethod]
@@ -48,7 +48,7 @@ namespace Tests
             vertex1.AddNeighbour(vertex2, 1);
             vertex2.AddNeighbour(vertex3, 2);            
 
-            Assert.AreEqual(3, RouteMeasurer.MeasureRoute(new []{ vertex1, vertex2, vertex3 }));
+            Assert.AreEqual(3, new []{ vertex1, vertex2, vertex3 }.MeasureRoute());
         }
     }
 }

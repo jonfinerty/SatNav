@@ -4,7 +4,7 @@ namespace SatNav
 {
     public static class RouteMeasurer
     {
-        public static int MeasureRoute(IEnumerable<Vertex> vertices)
+        public static int MeasureRoute(this IEnumerable<Vertex> vertices)
         {
             var totalDistance = 0;
 
@@ -25,5 +25,5 @@ namespace SatNav
 
             return totalDistance;
         }
-    }
+    }    
 }
