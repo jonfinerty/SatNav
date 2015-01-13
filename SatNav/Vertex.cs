@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SatNav
 {
-    internal class Vertex
+    public class Vertex
     {        
         private readonly IDictionary<Vertex, int> _neighbours;
 

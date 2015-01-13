@@ -10,8 +10,8 @@ namespace Tests
         public void NoValidPaths()
         {
             var disconnectedGraph = new Graph()
-                .AddEdge("A", "B", 1)
-                .AddEdge("C", "D", 1);
+                .AddDirectedEdge("A", "B", 1)
+                .AddDirectedEdge("C", "D", 1);
 
             var shortestPathFinder = new DijkstraShortestRouteCalculator(disconnectedGraph);
 
@@ -31,8 +31,8 @@ namespace Tests
         public void OnlyOneValidPath()
         {
             var simpleGraph = new Graph()
-                .AddEdge("A", "B", 1)
-                .AddEdge("B", "C", 1);
+                .AddDirectedEdge("A", "B", 1)
+                .AddDirectedEdge("B", "C", 1);
 
             var shortestPathFinder = new DijkstraShortestRouteCalculator(simpleGraph);
 
@@ -43,9 +43,9 @@ namespace Tests
         public void ShortestPathHasMoreJumpsThanOtherPossibility()
         {
             var graph = new Graph()
-                .AddEdge("Start", "End", 10)
-                .AddEdge("Start", "B", 1)
-                .AddEdge("B", "End", 1);
+                .AddDirectedEdge("Start", "End", 10)
+                .AddDirectedEdge("Start", "B", 1)
+                .AddDirectedEdge("B", "End", 1);
 
             var shortestPathFinder = new DijkstraShortestRouteCalculator(graph);
 
@@ -56,8 +56,8 @@ namespace Tests
         public void StartAndEndAreTheSame()
         {
             var graph = new Graph()
-                .AddEdge("Start", "B", 5)
-                .AddEdge("B", "Start", 5);
+                .AddDirectedEdge("Start", "B", 5)
+                .AddDirectedEdge("B", "Start", 5);
 
             var shortestPathFinder = new DijkstraShortestRouteCalculator(graph);
 

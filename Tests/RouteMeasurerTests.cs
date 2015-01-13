@@ -7,18 +7,16 @@ namespace Tests
     public class RouteMeasurerTests
     {
         [TestMethod]
-        public void MeasureRouteWithVertexNotInGraph()
+        public void MeasureRouteWhichDoesNotExist()
         {
-            var graph = new Graph()
-                .AddEdge("A", "B", 1);
-
-            var routeMeasurer = new RouteMeasurer(graph);
+            var vertex1 = new Vertex();
+            var vertex2 = new Vertex();
 
             try
             {
-                routeMeasurer.MeasureRoute("A", "C");
+                RouteMeasurer.MeasureRoute(new []{vertex1, vertex2});
             }
-            catch (NoSuchVertexException)
+            catch (NoSuchRouteException)
             {
                 return;
             }
@@ -29,33 +27,28 @@ namespace Tests
         [TestMethod]
         public void MeasureEmptyRoute()
         {
-
-            var routeMeasurer = new RouteMeasurer(new Graph());
-
-            Assert.AreEqual(0, routeMeasurer.MeasureRoute());
+            Assert.AreEqual(0, RouteMeasurer.MeasureRoute(new Vertex[]{}));
         }
 
         [TestMethod]
         public void MeasureRouteWithOneVertex()
         {
-            var graph = new Graph()
-                .AddEdge("A", "B", 1);                
+            var vertex1 = new Vertex();
 
-            var routeMeasurer = new RouteMeasurer(graph);
-
-            Assert.AreEqual(0, routeMeasurer.MeasureRoute("A"));
+            Assert.AreEqual(0, RouteMeasurer.MeasureRoute(new []{vertex1}));
         }
 
         [TestMethod]
         public void MeasureRoute()
         {
-            var graph = new Graph()
-                .AddEdge("A", "B", 1)
-                .AddEdge("B", "C", 2);
+            var vertex1 = new Vertex();
+            var vertex2 = new Vertex();
+            var vertex3 = new Vertex();
 
-            var routeMeasurer = new RouteMeasurer(graph);
+            vertex1.AddNeighbour(vertex2, 1);
+            vertex2.AddNeighbour(vertex3, 2);            
 
-            Assert.AreEqual(3, routeMeasurer.MeasureRoute("A", "B", "C"));
+            Assert.AreEqual(3, RouteMeasurer.MeasureRoute(new []{ vertex1, vertex2, vertex3 }));
         }
     }
 }

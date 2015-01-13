@@ -1,19 +1,29 @@
 namespace SatNav
 {
-    internal class DistanceLimitedRouteSearch : AbstractDepthFirstRouteSearch
+    public class DistanceLimitedRouteSearch : AbstractDepthFirstRouteSearch
     {
         private readonly int _distanceLeft;
 
-        public DistanceLimitedRouteSearch(Vertex currentVertex, Vertex targetVertex, int underDistance) : base(currentVertex, targetVertex)
+        private readonly int _routeVertexCount;
+
+        public DistanceLimitedRouteSearch(Vertex startVertex, Vertex targetVertex, int underDistance) : base(startVertex, targetVertex)
         {
             _distanceLeft = underDistance;
+            _routeVertexCount = 1;
+        }
+
+        private DistanceLimitedRouteSearch(Vertex startVertex, Vertex targetVertex, int underDistance, int routeVertexCount) : base(startVertex, targetVertex)
+        {
+            _distanceLeft = underDistance;
+            _routeVertexCount = routeVertexCount;
         }
 
         protected override AbstractDepthFirstRouteSearch NewSearchStartingFrom(Vertex newVertex)
         {
             var newDistanceLeft = _distanceLeft - CurrentVertex.GetDistanceTo(newVertex);
+            var newRouteVertexCount = _routeVertexCount + 1;
 
-            return new DistanceLimitedRouteSearch(newVertex, TargetVertex, newDistanceLeft);
+            return new DistanceLimitedRouteSearch(newVertex, TargetVertex, newDistanceLeft, newRouteVertexCount);
         }
 
         protected override bool SearchSizeConstraintHit()
@@ -23,7 +33,7 @@ namespace SatNav
 
         protected override bool ValidRouteConstraintMet()
         {
-            return _distanceLeft > 0 && CurrentVertex.Equals(TargetVertex);
+            return _routeVertexCount > 1 && _distanceLeft.IsPositive() && CurrentVertex.Equals(TargetVertex);
         }
     }
 }

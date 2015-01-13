@@ -7,7 +7,7 @@ namespace SatNav
         int CountNumberOfValidRoutes();
     }
 
-    internal abstract class AbstractDepthFirstRouteSearch : ISearchForNumberOfRoutes
+    public abstract class AbstractDepthFirstRouteSearch : ISearchForNumberOfRoutes
     {
         protected readonly Vertex CurrentVertex;
         protected readonly Vertex TargetVertex;
@@ -16,9 +16,9 @@ namespace SatNav
         protected abstract bool SearchSizeConstraintHit();
         protected abstract bool ValidRouteConstraintMet();
 
-        protected AbstractDepthFirstRouteSearch(Vertex currentVertex, Vertex targetVertex)
+        protected AbstractDepthFirstRouteSearch(Vertex startVertex, Vertex targetVertex)
         {
-            CurrentVertex = currentVertex;
+            CurrentVertex = startVertex;
             TargetVertex = targetVertex;
         }
 

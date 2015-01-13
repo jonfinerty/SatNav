@@ -31,15 +31,15 @@ namespace UI
         private static void InitialiseGraph()
         {
             var graph = new Graph()
-                .AddEdge("A", "B", 5)
-                .AddEdge("B", "C", 4)
-                .AddEdge("C", "D", 7)
-                .AddEdge("D", "C", 8)
-                .AddEdge("D", "E", 6)
-                .AddEdge("A", "D", 5)
-                .AddEdge("C", "E", 2)
-                .AddEdge("E", "B", 3)
-                .AddEdge("A", "E", 7);
+                .AddDirectedEdge("A", "B", 5)
+                .AddDirectedEdge("B", "C", 4)
+                .AddDirectedEdge("C", "D", 7)
+                .AddDirectedEdge("D", "C", 8)
+                .AddDirectedEdge("D", "E", 6)
+                .AddDirectedEdge("A", "D", 5)
+                .AddDirectedEdge("C", "E", 2)
+                .AddDirectedEdge("E", "B", 3)
+                .AddDirectedEdge("A", "E", 7);
 
             _numberOfRoutesSearchBuilder = new NumberOfRoutesSearchBuilder(graph);
             _routeMeasurer = new RouteMeasurer(graph);

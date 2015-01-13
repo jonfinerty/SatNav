@@ -4,7 +4,7 @@ namespace SatNav
     {
         private readonly int _maxVerticesInRoute;
 
-        public VertexLimitedRouteSearch(Vertex currentVertex, Vertex targetVertex, int maxVerticesInRoute) : base(currentVertex, targetVertex)
+        public VertexLimitedRouteSearch(Vertex startVertex, Vertex targetVertex, int maxVerticesInRoute) : base(startVertex, targetVertex)
         {            
             _maxVerticesInRoute = maxVerticesInRoute;
         }

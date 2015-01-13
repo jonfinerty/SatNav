@@ -4,7 +4,7 @@ namespace SatNav
     {
         private readonly int _exactVertexCountInRoute;
 
-        public ExactVertexCountRouteSearch(Vertex currentVertex, Vertex targetVertex, int exactVertexCountInRoute) : base(currentVertex, targetVertex)
+        public ExactVertexCountRouteSearch(Vertex startVertex, Vertex targetVertex, int exactVertexCountInRoute) : base(startVertex, targetVertex)
         {            
             _exactVertexCountInRoute = exactVertexCountInRoute;
         }

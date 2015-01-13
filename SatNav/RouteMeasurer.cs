@@ -1,23 +1,10 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SatNav
 {
-    public class RouteMeasurer
+    public static class RouteMeasurer
     {
-        private readonly Graph _graph;
-
-        public RouteMeasurer(Graph graph)
-        {
-            _graph = graph;            
-        }
-
-        public int MeasureRoute(params string[] vertexNames)
-        {
-            return MeasureRoute(vertexNames.Select(_graph.GetVertex).ToList());
-        }
-
-        private static int MeasureRoute(IEnumerable<Vertex> vertices)
+        public static int MeasureRoute(IEnumerable<Vertex> vertices)
         {
             var totalDistance = 0;
 
