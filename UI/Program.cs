@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+
 using SatNav;
 
 namespace UI
 {
     class Program
     {
-        private static NumberOfRoutesSearchBuilder _numberOfRoutesSearchBuilder;
-        private static RouteMeasurer _routeMeasurer;
-        private static DijkstraShortestRouteCalculator _dijkstraShortestRouteCalculator;
+        private static IDictionary<char, Vertex> graph;
 
         static void Main()
         {
@@ -30,86 +30,61 @@ namespace UI
 
         private static void InitialiseGraph()
         {
-            var graph = new Graph()
-                .AddDirectedEdge("A", "B", 5)
-                .AddDirectedEdge("B", "C", 4)
-                .AddDirectedEdge("C", "D", 7)
-                .AddDirectedEdge("D", "C", 8)
-                .AddDirectedEdge("D", "E", 6)
-                .AddDirectedEdge("A", "D", 5)
-                .AddDirectedEdge("C", "E", 2)
-                .AddDirectedEdge("E", "B", 3)
-                .AddDirectedEdge("A", "E", 7);
-
-            _numberOfRoutesSearchBuilder = new NumberOfRoutesSearchBuilder(graph);
-            _routeMeasurer = new RouteMeasurer(graph);
-            _dijkstraShortestRouteCalculator = new DijkstraShortestRouteCalculator(graph);
+            graph = GraphBuilder.MakeGraph("AB5", "BC4", "CD7", "DC8", "DE6", "AD5", "CE2", "EB3", "AE7");
         }
 
         private static void TestCase1()
         {
-            PrintHumanFriendlyOutput(() => _routeMeasurer.MeasureRoute("A", "B", "C"));
+            PrintHumanFriendlyOutput(() => new []{graph['A'], graph['B'], graph['C']}.MeasureRoute());
         }
         
         private static void TestCase2()
         {
-            PrintHumanFriendlyOutput(() => _routeMeasurer.MeasureRoute("A", "D"));
+            PrintHumanFriendlyOutput(() => new[] { graph['A'], graph['D']}.MeasureRoute());
         }
         
         private static void TestCase3()
         {
-            PrintHumanFriendlyOutput(() => _routeMeasurer.MeasureRoute("A", "D", "C"));
+            PrintHumanFriendlyOutput(() => new[] { graph['A'], graph['D'], graph['C'] }.MeasureRoute());
         }
         
         private static void TestCase4()
         {
-            PrintHumanFriendlyOutput(() => _routeMeasurer.MeasureRoute("A", "E", "B", "C", "D"));
+            PrintHumanFriendlyOutput(() =>new []{graph['A'], graph['E'], graph['B'], graph['C'], graph['D']}.MeasureRoute());
         }
         
         private static void TestCase5()
         {
-            PrintHumanFriendlyOutput(() => _routeMeasurer.MeasureRoute("A", "E", "D"));
+            PrintHumanFriendlyOutput(() => new []{graph['A'], graph['E'], graph['D']}.MeasureRoute());
         }
 
         private static void TestCase6()
         {
-            var search = _numberOfRoutesSearchBuilder
-                .StartingFrom("C")
-                .EndingAt("C")
-                .WithMaximumVerticesInRoute(3)
-                .Build();
+            var search = new VertexLimitedRouteSearch(graph['C'], graph['C'], 3);
 
             PrintHumanFriendlyOutput(() => search.CountNumberOfValidRoutes());
         }
 
         private static void TestCase7()
         {
-            var search = _numberOfRoutesSearchBuilder
-                .StartingFrom("A")
-                .EndingAt("C")
-                .WithExactVertexCountInRoute(4)
-                .Build();
+            var search = new ExactVertexCountRouteSearch(graph['A'], graph['C'], 4);            
 
             PrintHumanFriendlyOutput(() => search.CountNumberOfValidRoutes());
         }
 
         private static void TestCase8()
         {
-            PrintHumanFriendlyOutput(() => _dijkstraShortestRouteCalculator.ShortestDistanceBetween("A", "C"));
+            PrintHumanFriendlyOutput(() => graph['A'].ShortestDistanceTo(graph['C']));
         }
 
         private static void TestCase9()
         {
-            PrintHumanFriendlyOutput(() => _dijkstraShortestRouteCalculator.ShortestDistanceBetween("B", "B"));
+            PrintHumanFriendlyOutput(() => graph['B'].ShortestDistanceTo(graph['B']));
         }
 
         private static void TestCase10()
         {
-            var search = _numberOfRoutesSearchBuilder
-                .StartingFrom("C")
-                .EndingAt("C")
-                .WithUnderDistanceLimit(30)
-                .Build();
+            var search = new DistanceLimitedRouteSearch(graph['C'], graph['C'], 30);
 
             PrintHumanFriendlyOutput(() => search.CountNumberOfValidRoutes());
         }

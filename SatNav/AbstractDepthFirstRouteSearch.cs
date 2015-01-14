@@ -2,12 +2,7 @@ using System.Linq;
 
 namespace SatNav
 {
-    public interface ISearchForNumberOfRoutes
-    {
-        int CountNumberOfValidRoutes();
-    }
-
-    public abstract class AbstractDepthFirstRouteSearch : ISearchForNumberOfRoutes
+    public abstract class AbstractDepthFirstRouteSearch
     {
         protected readonly Vertex CurrentVertex;
         protected readonly Vertex TargetVertex;
@@ -34,7 +29,7 @@ namespace SatNav
             if (ValidRouteConstraintMet())
             {
                 numberOfRoutes++;
-            }
+            }   
 
             return numberOfRoutes;
         }

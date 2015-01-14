@@ -2,66 +2,50 @@
 using System.Collections.Generic;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using SatNav;
 
-namespace Tests
+using UI;
+
+namespace AcceptanceTests
 {
     [TestClass]
     public class HuddleTests
     {        
-        private NumberOfRoutesSearchBuilder _numberOfRoutesSearchBuilder;
-        private DijkstraShortestRouteCalculator _dijkstraShortestRouteCalculator;
-
         private IDictionary<char, Vertex> graph;
 
         [TestInitialize]
         public void SetupGraph()
         {
             graph = GraphBuilder.MakeGraph("AB5", "BC4", "CD7", "DC8", "DE6", "AD5", "CE2", "EB3", "AE7");
-
-            /*
-            var graph = new Graph()
-                .AddDirectedEdge("A", "B", 5)
-                .AddDirectedEdge("B", "C", 4)
-                .AddDirectedEdge("C", "D", 7)
-                .AddDirectedEdge("D", "C", 8)
-                .AddDirectedEdge("D", "E", 6)
-                .AddDirectedEdge("A", "D", 5)
-                .AddDirectedEdge("C", "E", 2)
-                .AddDirectedEdge("E", "B", 3)
-                .AddDirectedEdge("A", "E", 7);
-
-            _numberOfRoutesSearchBuilder = new NumberOfRoutesSearchBuilder(graph);
-            _routeMeasurer = new RouteMeasurer(graph);
-            _dijkstraShortestRouteCalculator = new DijkstraShortestRouteCalculator(graph);*/
         }
 
         [TestMethod]
         public void Test1()
         {
             var routeVertices = new[]{graph['A'], graph['B'], graph['C']};
-            Assert.AreEqual(9, RouteMeasurer.MeasureRoute(routeVertices));
+            Assert.AreEqual(9, routeVertices.MeasureRoute());
         }
 
         [TestMethod]
         public void Test2()
         {
             var routeVertices = new[] { graph['A'], graph['D'] };
-            Assert.AreEqual(5, RouteMeasurer.MeasureRoute(routeVertices));
+            Assert.AreEqual(5, routeVertices.MeasureRoute());
         }
 
         [TestMethod]
         public void Test3()
         {
             var routeVertices = new[] { graph['A'], graph['D'], graph['C'] };
-            Assert.AreEqual(13, RouteMeasurer.MeasureRoute(routeVertices));
+            Assert.AreEqual(13, routeVertices.MeasureRoute());
         }
 
         [TestMethod]
         public void Test4()
         {
             var routeVertices = new[] { graph['A'], graph['E'], graph['B'], graph['C'], graph['D'] };
-            Assert.AreEqual(21, RouteMeasurer.MeasureRoute(routeVertices));
+            Assert.AreEqual(21, routeVertices.MeasureRoute());
         }
 
         [TestMethod]
@@ -72,7 +56,7 @@ namespace Tests
             try
             {
                 var routeVertices = new[] { graph['A'], graph['E'], graph['D'] };
-                RouteMeasurer.MeasureRoute(routeVertices);
+                routeVertices.MeasureRoute();
             }
             catch (Exception e)
             {
@@ -85,38 +69,28 @@ namespace Tests
         [TestMethod]
         public void Test6()
         {
-            var search = _numberOfRoutesSearchBuilder
-                .StartingFrom("C")
-                .EndingAt("C")
-                .WithMaximumVerticesInRoute(3)
-                .Build();
-
+            var search = new VertexLimitedRouteSearch(graph['A'], graph['E'], 3);
             Assert.AreEqual(2, search.CountNumberOfValidRoutes());
         }
 
-        [Ignore] // This test is wrong, there is only one route from A->C with 4 vertices in it: A-E-B-C
+        // [Ignore] // This test is wrong, there is only one route from A->C with 4 vertices in it: A-E-B-C
         [TestMethod]
         public void Test7()
         {
-            var search = _numberOfRoutesSearchBuilder
-                .StartingFrom("A")
-                .EndingAt("C")
-                .WithExactVertexCountInRoute(4)
-                .Build();
-
+            var search = new ExactVertexCountRouteSearch(graph['A'], graph['C'], 4);
             Assert.AreEqual(3, search.CountNumberOfValidRoutes());
         }
 
         [TestMethod]
         public void Test8()
         {
-            Assert.AreEqual(9, _dijkstraShortestRouteCalculator.ShortestDistanceBetween("A", "C"));
+            Assert.AreEqual(9, graph['A'].ShortestDistanceTo(graph['C']));
         }
 
         [TestMethod]
         public void Test9()
         {
-            Assert.AreEqual(9, _dijkstraShortestRouteCalculator.ShortestDistanceBetween("B", "B"));
+            Assert.AreEqual(9, graph['B'].ShortestDistanceTo(graph['B']));
         }
 
         [TestMethod]

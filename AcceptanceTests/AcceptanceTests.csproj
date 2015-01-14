@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7C1CAAF3-E709-4B39-B5A4-8070D6F69F36}</ProjectGuid>
+    <ProjectGuid>c7ab305e-8488-47d8-acb6-907df7515cc3</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tests</RootNamespace>
-    <AssemblyName>Tests</AssemblyName>
+    <RootNamespace>AcceptanceTests</RootNamespace>
+    <AssemblyName>AcceptanceTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -50,19 +50,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DistanceLimitedRouteSearchTests.cs" />
-    <Compile Include="ExactVertexCountRouteSearchTests.cs" />
-    <Compile Include="HuddleTests.cs" />
-    <Compile Include="MaximumVertexRouteSearchTests.cs" />
+    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RouteMeasurerTests.cs" />
-    <Compile Include="ShortestPathTests.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SatNav\SatNav.csproj">
-      <Project>{693B8C0E-FC60-4312-954E-3372B7440031}</Project>
-      <Name>SatNav</Name>
-    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

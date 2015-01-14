@@ -4,33 +4,16 @@ using System.Linq;
 namespace SatNav
 {
     /* This class implements Dijkstra's Algorithm - http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm */
-    public class DijkstraShortestRouteCalculator
+    public static class DijkstraShortestRouteCalculator
     {
-        private readonly Graph _graph;
-        private IDictionary<Vertex, int> _verticesWithTentativeShortestPaths;
-        private IDictionary<Vertex, int> _verticesWithShortestPathFound;
-        private Vertex _startVertex;
-        private Vertex _targetVertex;        
-
-        public DijkstraShortestRouteCalculator(Graph graph)
+        public static int ShortestDistanceTo(this Vertex startVertex, Vertex targetVertex)
         {
-            _graph = graph;
-        }
-
-        public int ShortestDistanceBetween(string startVertexName, string endVertexName)
-        {
-            _startVertex = _graph.GetVertex(startVertexName);
-            _targetVertex = _graph.GetVertex(endVertexName);
-
-            if (_startVertex.Equals(_targetVertex))
+            if (startVertex.Equals(targetVertex))
             {
-                _startVertex = CreateTempSourceVertex(_startVertex);
+                startVertex = CreateTempSourceVertex(startVertex);
             }
 
-            _verticesWithTentativeShortestPaths = new Dictionary<Vertex, int>{ {_startVertex, 0} };
-            _verticesWithShortestPathFound = new Dictionary<Vertex, int>();
-
-            return RunDijkstrasAlgorithm();
+            return RunDijkstrasAlgorithm(startVertex, targetVertex);
         }
 
         private static Vertex CreateTempSourceVertex(Vertex startVertex)
@@ -46,81 +29,52 @@ namespace SatNav
             return startVertex;
         }
 
-        private int RunDijkstrasAlgorithm()
+        private static int RunDijkstrasAlgorithm(Vertex startVertex, Vertex targetVertex)
         {
-            while (ShortestPathToTargetFound() == false && MoreVerticesReachable())
+            IDictionary<Vertex, int> verticesWithTentativeShortestPaths = new Dictionary<Vertex, int> { { startVertex, 0 } };
+            IDictionary<Vertex, int> verticesWithShortestPathFound = new Dictionary<Vertex, int>();
+
+            while (verticesWithShortestPathFound.ContainsKey(targetVertex) == false && verticesWithTentativeShortestPaths.Any())
             {
-                var currentVertex = GetVertexWithShortestTentativeShortestPath();
+                var currentVertex = GetVertexWithShortestTentativeShortestPath(verticesWithTentativeShortestPaths);
 
-                LockdownVertexShortestDistance(currentVertex);
+                var shortestDistanceFound = verticesWithTentativeShortestPaths[currentVertex];
+                verticesWithShortestPathFound.Add(currentVertex, shortestDistanceFound);
+                verticesWithTentativeShortestPaths.Remove(currentVertex);
 
-                var nonLockedDownNeighbours = currentVertex.GetNeighbours().Where(neighbour => _verticesWithShortestPathFound.ContainsKey(neighbour) == false);
+                var nonLockedDownNeighbours = currentVertex.GetNeighbours().Where(neighbour => verticesWithShortestPathFound.ContainsKey(neighbour) == false);
 
                 foreach (var neighbour in nonLockedDownNeighbours)
                 {
-                    var lockedDownShortestDistanceToCurrentVertex = _verticesWithShortestPathFound[currentVertex];
+                    var lockedDownShortestDistanceToCurrentVertex = verticesWithShortestPathFound[currentVertex];
 
                     var pathDistanceToNeighbour = lockedDownShortestDistanceToCurrentVertex + currentVertex.GetDistanceTo(neighbour);
 
-                    if (NoPathFoundToVertexYet(neighbour))
+                    if (verticesWithTentativeShortestPaths.ContainsKey(neighbour))
                     {
-                        SetTentativeShortestPathFound(neighbour, pathDistanceToNeighbour);
+                        if (pathDistanceToNeighbour < verticesWithTentativeShortestPaths[neighbour])
+                        {
+                            verticesWithTentativeShortestPaths[neighbour] = pathDistanceToNeighbour;
+                        }
                     }
-                    else if (pathDistanceToNeighbour < ShortestDistanceFoundSoFarTo(neighbour))
+                    else
                     {
-                        ImproveTentativeShortestPathFound(neighbour, pathDistanceToNeighbour);
+                        verticesWithTentativeShortestPaths.Add(neighbour, pathDistanceToNeighbour);
                     }
                 }
             }
 
-            if (ShortestPathToTargetFound())
+            if (verticesWithShortestPathFound.ContainsKey(targetVertex))
             {
-                return _verticesWithShortestPathFound[_targetVertex];
+                return verticesWithShortestPathFound[targetVertex];
             }
             
             throw new NoSuchRouteException();
         }
 
-        private void SetTentativeShortestPathFound(Vertex neighbour, int pathDistanceToNeighbour)
+        private static Vertex GetVertexWithShortestTentativeShortestPath(IEnumerable<KeyValuePair<Vertex, int>> vertexDistanceDictionary)
         {
-            _verticesWithTentativeShortestPaths.Add(neighbour, pathDistanceToNeighbour);
-        }
-
-        private int ShortestDistanceFoundSoFarTo(Vertex vertex)
-        {
-            return _verticesWithTentativeShortestPaths[vertex];
-        }
-
-        private void ImproveTentativeShortestPathFound(Vertex neighbour, int routeDistanceToNeighbourThroughCurrentNode)
-        {
-            _verticesWithTentativeShortestPaths[neighbour] = routeDistanceToNeighbourThroughCurrentNode;
-        }
-
-        private bool NoPathFoundToVertexYet(Vertex vertex)
-        {
-            return _verticesWithTentativeShortestPaths.ContainsKey(vertex) == false;
-        }
-
-        private void LockdownVertexShortestDistance(Vertex vertex)
-        {
-            var shortestDistanceFound = _verticesWithTentativeShortestPaths[vertex];
-            _verticesWithShortestPathFound.Add(vertex, shortestDistanceFound);
-            _verticesWithTentativeShortestPaths.Remove(vertex);
-        }
-
-        private Vertex GetVertexWithShortestTentativeShortestPath()
-        {
-            return _verticesWithTentativeShortestPaths.OrderBy(v => v.Value).First().Key;
-        }
-
-        private bool ShortestPathToTargetFound()
-        {
-            return _verticesWithShortestPathFound.ContainsKey(_targetVertex);
-        }
-
-        private bool MoreVerticesReachable()
-        {
-            return _verticesWithTentativeShortestPaths.Any();
+            return vertexDistanceDictionary.OrderBy(v => v.Value).First().Key;
         }
     }
 }

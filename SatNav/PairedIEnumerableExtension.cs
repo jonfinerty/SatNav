@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
 
 namespace SatNav
 {
@@ -26,11 +25,6 @@ namespace SatNav
 
                 yield return new Tuple<T, T>(currentItem, nextItem);
             }
-        }
-
-        internal static bool IsPositive(this int number)
-        {
-            return number > 0;
         }
     }
 }

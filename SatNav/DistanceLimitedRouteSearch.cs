@@ -33,7 +33,7 @@ namespace SatNav
 
         protected override bool ValidRouteConstraintMet()
         {
-            return _routeVertexCount > 1 && _distanceLeft.IsPositive() && CurrentVertex.Equals(TargetVertex);
+            return _routeVertexCount > 1 && _distanceLeft > 0 && CurrentVertex.Equals(TargetVertex);
         }
     }
 }

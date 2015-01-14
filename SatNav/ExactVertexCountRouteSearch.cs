@@ -1,6 +1,6 @@
 namespace SatNav
 {
-    internal class ExactVertexCountRouteSearch : AbstractDepthFirstRouteSearch
+    public class ExactVertexCountRouteSearch : AbstractDepthFirstRouteSearch
     {
         private readonly int _exactVertexCountInRoute;
 
@@ -16,12 +16,12 @@ namespace SatNav
 
         protected override bool SearchSizeConstraintHit()
         {
-            return _exactVertexCountInRoute == 1;
+            return _exactVertexCountInRoute == 0;
         }
 
         protected override bool ValidRouteConstraintMet()
         {
-            return CurrentVertex.Equals(TargetVertex) && _exactVertexCountInRoute == 1;
+            return CurrentVertex.Equals(TargetVertex) && _exactVertexCountInRoute == 0;
         }
     }
 }

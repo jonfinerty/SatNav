@@ -9,15 +9,12 @@ namespace Tests
         [TestMethod]
         public void NoValidPaths()
         {
-            var disconnectedGraph = new Graph()
-                .AddDirectedEdge("A", "B", 1)
-                .AddDirectedEdge("C", "D", 1);
-
-            var shortestPathFinder = new DijkstraShortestRouteCalculator(disconnectedGraph);
+            var vertex1 = new Vertex();
+            var vertex2 = new Vertex();            
 
             try
             {
-                shortestPathFinder.ShortestDistanceBetween("A", "D");
+                vertex1.ShortestDistanceTo(vertex2);
             }
             catch (NoSuchRouteException)
             {
@@ -30,38 +27,38 @@ namespace Tests
         [TestMethod]
         public void OnlyOneValidPath()
         {
-            var simpleGraph = new Graph()
-                .AddDirectedEdge("A", "B", 1)
-                .AddDirectedEdge("B", "C", 1);
+            var vertex1 = new Vertex();
+            var vertex2 = new Vertex();
+            vertex1.AddNeighbour(vertex2, 1);
+            var vertex3 = new Vertex();
+            vertex2.AddNeighbour(vertex3, 1);            
 
-            var shortestPathFinder = new DijkstraShortestRouteCalculator(simpleGraph);
-
-            Assert.AreEqual(2, shortestPathFinder.ShortestDistanceBetween("A", "C"));
+            Assert.AreEqual(2, vertex1.ShortestDistanceTo(vertex3));
         }
 
         [TestMethod]
         public void ShortestPathHasMoreJumpsThanOtherPossibility()
         {
-            var graph = new Graph()
-                .AddDirectedEdge("Start", "End", 10)
-                .AddDirectedEdge("Start", "B", 1)
-                .AddDirectedEdge("B", "End", 1);
+            var startVertex = new Vertex();
+            var endVertex = new Vertex();
+            startVertex.AddNeighbour(endVertex, 10);
 
-            var shortestPathFinder = new DijkstraShortestRouteCalculator(graph);
+            var vertexB = new Vertex();
+            startVertex.AddNeighbour(vertexB, 1);
+            vertexB.AddNeighbour(endVertex, 1);            
 
-            Assert.AreEqual(2, shortestPathFinder.ShortestDistanceBetween("Start", "End"));
+            Assert.AreEqual(2, startVertex.ShortestDistanceTo(endVertex));
         }
 
         [TestMethod]
         public void StartAndEndAreTheSame()
         {
-            var graph = new Graph()
-                .AddDirectedEdge("Start", "B", 5)
-                .AddDirectedEdge("B", "Start", 5);
+            var startVertex = new Vertex();
+            var vertexB = new Vertex();
+            startVertex.AddNeighbour(vertexB, 5);
+            vertexB.AddNeighbour(startVertex, 5);
 
-            var shortestPathFinder = new DijkstraShortestRouteCalculator(graph);
-
-            Assert.AreEqual(10, shortestPathFinder.ShortestDistanceBetween("Start", "Start"));
+            Assert.AreEqual(10, startVertex.ShortestDistanceTo(startVertex));
         }
     }
 }

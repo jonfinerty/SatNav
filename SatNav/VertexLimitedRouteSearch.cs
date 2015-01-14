@@ -1,6 +1,6 @@
 namespace SatNav
 {
-    internal class VertexLimitedRouteSearch : AbstractDepthFirstRouteSearch
+    public class VertexLimitedRouteSearch : AbstractDepthFirstRouteSearch
     {
         private readonly int _maxVerticesInRoute;
 

@@ -29,6 +29,11 @@ namespace SatNav
 
         public int GetDistanceTo(Vertex otherVertex)
         {
+            if (IsConnectedTo(otherVertex) == false)
+            {
+                throw new NoSuchRouteException();
+            }
+
             return _neighbours[otherVertex];
         }
 

@@ -49,7 +49,6 @@
     <Compile Include="NoSuchVertexException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteMeasurer.cs" />
-    <Compile Include="NumberOfRoutesSearchBuilder.cs" />
     <Compile Include="DijkstraShortestRouteCalculator.cs" />
     <Compile Include="Vertex.cs" />
   </ItemGroup>
