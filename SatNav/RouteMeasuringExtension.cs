@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace SatNav
 {
-    public static class RouteMeasurer
+    public static class RouteMeasuringExtension
     {
         public static int MeasureRoute(this IEnumerable<Vertex> vertices)
         {

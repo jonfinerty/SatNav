@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.30324.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{7C1CAAF3-E709-4B39-B5A4-8070D6F69F36}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SatNav", "SatNav\SatNav.csproj", "{693B8C0E-FC60-4312-954E-3372B7440031}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{84B01FB9-3B80-4177-B839-522C22F68047}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcceptanceTests", "AcceptanceTests\AcceptanceTests.csproj", "{0F9C8AEF-CCF2-42C6-B7E3-BD1F2E07C04C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{84B01FB9-3B80-4177-B839-522C22F68047}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84B01FB9-3B80-4177-B839-522C22F68047}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84B01FB9-3B80-4177-B839-522C22F68047}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F9C8AEF-CCF2-42C6-B7E3-BD1F2E07C04C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F9C8AEF-CCF2-42C6-B7E3-BD1F2E07C04C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F9C8AEF-CCF2-42C6-B7E3-BD1F2E07C04C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F9C8AEF-CCF2-42C6-B7E3-BD1F2E07C04C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
