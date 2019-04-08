@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SatNav
 {
-    internal class Vertex
+    public class Vertex
     {        
         private readonly IDictionary<Vertex, int> _neighbours;
 
@@ -29,6 +29,11 @@ namespace SatNav
 
         public int GetDistanceTo(Vertex otherVertex)
         {
+            if (IsConnectedTo(otherVertex) == false)
+            {
+                throw new NoSuchRouteException();
+            }
+
             return _neighbours[otherVertex];
         }
 

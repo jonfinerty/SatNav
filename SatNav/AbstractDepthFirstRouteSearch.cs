@@ -2,12 +2,7 @@ using System.Linq;
 
 namespace SatNav
 {
-    public interface ISearchForNumberOfRoutes
-    {
-        int CountNumberOfValidRoutes();
-    }
-
-    internal abstract class AbstractDepthFirstRouteSearch : ISearchForNumberOfRoutes
+    public abstract class AbstractDepthFirstRouteSearch
     {
         protected readonly Vertex CurrentVertex;
         protected readonly Vertex TargetVertex;
@@ -16,9 +11,9 @@ namespace SatNav
         protected abstract bool SearchSizeConstraintHit();
         protected abstract bool ValidRouteConstraintMet();
 
-        protected AbstractDepthFirstRouteSearch(Vertex currentVertex, Vertex targetVertex)
+        protected AbstractDepthFirstRouteSearch(Vertex startVertex, Vertex targetVertex)
         {
-            CurrentVertex = currentVertex;
+            CurrentVertex = startVertex;
             TargetVertex = targetVertex;
         }
 
@@ -34,7 +29,7 @@ namespace SatNav
             if (ValidRouteConstraintMet())
             {
                 numberOfRoutes++;
-            }
+            }   
 
             return numberOfRoutes;
         }
